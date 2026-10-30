@@ -10,7 +10,6 @@ services:
       QT_X11_NO_MITSHM: "1"
     devices:
       - /dev/fuse
-      - /dev/dri:/dev/dri
     cap_add:
       - SYS_ADMIN
     security_opt:
@@ -18,6 +17,7 @@ services:
     tmpfs:
       - /tmp
       - /home/anki:uid=1000,gid=1000,mode=700
+      - /data:uid=1000,gid=1000,mode=700
     volumes:
       - ./encrypted-volume:/volume
       - /tmp/.X11-unix:/tmp/.X11-unix

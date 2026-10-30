@@ -16,6 +16,7 @@ services:
     tmpfs:
       - /tmp
       - /home/anki:uid=1000,gid=1000,mode=700
+      - /data:uid=1000,gid=1000,mode=700
     networks:
       - internal
     volumes:
