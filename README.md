@@ -13,9 +13,20 @@ Despite these benefits, data security and privacy concerns prevent researchers f
 
 ## Installation
 
-TODO
-1. Install Docker: [Docker Desktop](https://www.docker.com/products/docker-desktop/) on Mac/Windows, or Docker Engine on Linux.
-2. Download or clone this repo. No build step needed.
+### Linux
+
+1. Install [Docker Engine](https://docs.docker.com/engine/install/ubuntu/).
+2. Download or clone this repository.
+
+### Mac
+
+1. Install [Docker Desktop](https://www.docker.com/products/docker-desktop/).
+2. Download or clone this repository.
+
+### Windows
+
+1. Install [Docker Desktop](https://www.docker.com/products/docker-desktop/).
+2. Download or clone this repository.
 
 ## Usage
 
@@ -58,9 +69,15 @@ To stop `aind`, quit Anki and run:
 ./stop.ps1
 ```
 
+## Backups
+
+To backup your data, quit `aind` and copy the `encrypted-volume` folder to another drive.
+
 ## Security
 
-- Your Anki data is encrypted on disk. Only you, with your password, can read it.
-- The app has no internet access — or, for the browser view, only a connection to your own machine — so it can't send your data anywhere.
-- An earlier version of this setup could have accidentally recorded your password's secret recovery key in the logs. That's fixed.
-- The browser view itself isn't password-protected, though it's only reachable from your own machine, and there are a couple of other minor hardening gaps. Ask if you'd like the full technical details.
+`aind` is secure against accidental data leakage and unsophisticated attackers. However, several attack vectors exist, including:
+1. Supply chain attacks with container escape
+2. Malicious cards with container escape
+3. Local machine access (hot)
+
+Although these attack vectors require significant expertise, frontier AI systems may allow unsophisticated actors to conduct such attacks. Personally, I wouldn't worry about it: at this threat level, ~all of your sofware is vulnerable.
