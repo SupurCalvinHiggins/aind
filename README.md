@@ -40,10 +40,7 @@ To start `aind`, run:
 ```
 and enter your password. If you have a desktop open, an Anki window will appear. Otherwise, `aind` will print a URL: open it. 
 
-To stop `aind`, quit Anki and run:
-```bash
-./stop.sh
-```
+To stop `aind`, quit Anki.
 
 ### Mac
 To start `aind`, run:
@@ -52,10 +49,7 @@ To start `aind`, run:
 ```
 enter your password, and open the printed URL.
 
-To stop `aind`, quit Anki and run:
-```bash
-./stop.sh
-```
+To stop `aind`, quit Anki.
 
 ### Windows
 To start `aind`, run:
@@ -64,14 +58,11 @@ To start `aind`, run:
 ```
 enter your password, and open the printed URL.
 
-To stop `aind`, quit Anki and run:
-```bash
-./stop.ps1
-```
+To stop `aind`, quit Anki.
 
 ## Backups
 
-To backup your data, quit `aind` and copy the `encrypted-volume` folder to another drive.
+To backup your data, quit `aind` and copy the `encrypted-volume` folder to another drive. **Never share `encrypted-volume` publicly.** 
 
 ## Security
 
