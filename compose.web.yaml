@@ -7,6 +7,7 @@ services:
     read_only: true
     environment:
       WEB_UI: "1"
+      DEBUG: ${DEBUG:-0}
     devices:
       - /dev/fuse
     cap_add:

@@ -23,7 +23,7 @@ ARG DEBIAN_FRONTEND=noninteractive
 ENV LANG=C.UTF-8 LC_ALL=C.UTF-8
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
-        gocryptfs fuse3 xvfb x11vnc novnc websockify fonts-dejavu-core \
+        gocryptfs fuse3 xvfb x11vnc novnc websockify fluxbox xdotool fonts-dejavu-core \
         libasound2 libdbus-1-3 libegl1 libfontconfig1 libfreetype6 libgl1 \
         libglib2.0-0 libnss3 libxcb-cursor0 libxcb-icccm4 libxcb-image0 \
         libxcb-keysyms1 libxcb-randr0 libxcb-render-util0 libxcb-shape0 \

@@ -60,9 +60,15 @@ enter your password, and open the printed URL.
 
 To stop `aind`, quit Anki.
 
+### Advanced
+
 ## Backups
 
 To backup your data, quit `aind` and copy the `encrypted-volume` folder to another drive. **Never share `encrypted-volume` publicly.** 
+
+## Troubleshooting
+
+Set `DEBUG=1` environment variable to display suppressed logs.
 
 ## Security
 

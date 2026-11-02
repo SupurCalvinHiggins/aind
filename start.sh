@@ -3,7 +3,7 @@ set -eu
 cd "$(dirname "$0")"
 mkdir -p encrypted-volume
 
-if [ "$(uname -s)" = "testLinux" ] && [ -n "${DISPLAY:-}" ] && [ -d /tmp/.X11-unix ]; then
+if [ "$(uname -s)" = "Linux" ] && [ -n "${DISPLAY:-}" ] && [ -d /tmp/.X11-unix ]; then
     COMPOSE_FILE=compose.x11.yaml
     xhost +SI:localuser:"$(whoami)" >/dev/null 2>&1 || true
 else
