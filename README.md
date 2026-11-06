@@ -60,17 +60,17 @@ enter your password, and open the printed URL.
 
 To stop `aind`, quit Anki.
 
-# Advanced
+## Advanced
 
-## Backups
+### Backups
 
 To backup your data, quit `aind` and copy the `encrypted-volume` folder to another drive. **Never share `encrypted-volume` publicly.** 
 
-## Troubleshooting
+### Troubleshooting
 
 Set `DEBUG=1` environment variable to display suppressed logs.
 
-## Security
+### Security
 
 `aind` is secure against accidental data leakage and unsophisticated attackers. However, several attack vectors exist, including:
 1. Supply chain attacks with container escape
