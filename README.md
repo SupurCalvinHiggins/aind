@@ -60,7 +60,7 @@ enter your password, and open the printed URL.
 
 To stop `aind`, quit Anki.
 
-### Advanced
+# Advanced
 
 ## Backups
 
