@@ -21,12 +21,14 @@ Despite these benefits, data security and privacy concerns prevent researchers f
 ### Mac
 
 1. Install [Docker Desktop](https://www.docker.com/products/docker-desktop/).
-2. Download or clone this repository.
+2. Reboot your computer.
+3. Download or clone this repository.
 
 ### Windows
 
 1. Install [Docker Desktop](https://www.docker.com/products/docker-desktop/).
-2. Download or clone this repository.
+2. Reboot your computer.
+3. Download or clone this repository.
 
 ## Usage
 
