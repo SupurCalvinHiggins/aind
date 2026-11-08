@@ -23,7 +23,19 @@ ARG DEBIAN_FRONTEND=noninteractive
 ENV LANG=C.UTF-8 LC_ALL=C.UTF-8
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
-        gocryptfs fuse3 xvfb x11vnc novnc websockify fluxbox xdotool fonts-dejavu-core \
+        ca-certificates wget \
+    && rm -rf /var/lib/apt/lists/* \
+    && wget -O /usr/share/keyrings/xpra.asc https://xpra.org/xpra.asc \
+    && wget -O /etc/apt/sources.list.d/xpra.sources \
+        https://raw.githubusercontent.com/Xpra-org/xpra/master/packaging/repos/bookworm/xpra.sources
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+        gocryptfs fuse3 xvfb xpra xpra-x11 xpra-html5 libjs-jquery libjs-jquery-ui \
+        python3-lz4 python3-paramiko python3-uinput xauth dbus-x11 python3-dbus \
+        python3-avahi python3-pil python3-pyinotify python3-xdg python3-netifaces \
+        mpv netcat-openbsd fonts-dejavu-core \
+        pulseaudio gstreamer1.0-plugins-base gstreamer1.0-plugins-good \
+        gstreamer1.0-pulseaudio python3-gst-1.0 \
         libasound2 libdbus-1-3 libegl1 libfontconfig1 libfreetype6 libgl1 \
         libglib2.0-0 libnss3 libxcb-cursor0 libxcb-icccm4 libxcb-image0 \
         libxcb-keysyms1 libxcb-randr0 libxcb-render-util0 libxcb-shape0 \

@@ -1,0 +1,56 @@
+services:
+  anki:
+    container_name: anki
+    build: .
+    stdin_open: true
+    tty: true
+    read_only: true
+    environment:
+      DEBUG: ${DEBUG:-0}
+      XPRA_CLIENT: ${XPRA_CLIENT:-0}
+    devices:
+      - /dev/fuse
+    cap_add:
+      - SYS_ADMIN
+    # Unlike relay, this service is deliberately not locked down with
+    # cap_drop: [ALL] / no-new-privileges: fusermount3 is a setuid-root
+    # helper that gocryptfs calls to perform the actual mount, and both of
+    # those restrictions interfere with the privilege-gain that requires.
+    security_opt:
+      - apparmor:unconfined
+    tmpfs:
+      - /tmp
+      - /home/anki:uid=1000,gid=1000,mode=700
+      - /data:uid=1000,gid=1000,mode=700
+    networks:
+      - internal
+    volumes:
+      - ./encrypted-volume:/volume
+    depends_on:
+      - relay
+    # Always logged (unlike relay): start.sh/start.ps1 watch for the
+    # "Anki in Docker is ready" line. Holds only the banner/ready text --
+    # gocryptfs reads the passphrase with echo off, and xpra/anki output
+    # is suppressed unless DEBUG=1.
+    logging:
+      driver: json-file
+
+  relay:
+    image: alpine/socat
+    command: TCP-LISTEN:10000,fork,reuseaddr TCP:anki:10000
+    ports:
+      - "127.0.0.1:10000:10000"
+    networks:
+      - internal
+      - default
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    user: "65534:65534"
+    logging:
+      driver: ${LOG_DRIVER:-none}
+
+networks:
+  internal:
+    internal: true

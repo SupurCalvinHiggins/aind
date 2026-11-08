@@ -3,13 +3,6 @@ set -eu
 cd "$(dirname "$0")"
 mkdir -p encrypted-volume
 
-if [ "$(uname -s)" = "Linux" ] && [ -n "${DISPLAY:-}" ] && [ -d /tmp/.X11-unix ]; then
-    COMPOSE_FILE=compose.x11.yaml
-    xhost +SI:localuser:"$(whoami)" >/dev/null 2>&1 || true
-else
-    COMPOSE_FILE=compose.web.yaml
-fi
-
 quiet() {
     if [ "${DEBUG:-0}" = "1" ]; then
         "$@"
@@ -18,8 +11,43 @@ quiet() {
     fi
 }
 
-trap 'quiet docker compose -f "$COMPOSE_FILE" down' EXIT INT TERM
+if [ "${DEBUG:-0}" = "1" ]; then
+    export LOG_DRIVER=json-file
+else
+    export LOG_DRIVER=none
+fi
 
-quiet docker compose -f "$COMPOSE_FILE" create --build
-quiet docker compose -f "$COMPOSE_FILE" start relay || true
-docker start -ai "$(docker compose -f "$COMPOSE_FILE" ps -a -q anki)"
+LINK_URL='http://127.0.0.1:10000/'
+
+if command -v xpra >/dev/null 2>&1; then
+    export XPRA_CLIENT=1
+else
+    export XPRA_CLIENT=0
+fi
+
+trap 'quiet docker compose down' EXIT INT TERM
+
+echo "Building (this can take several minutes)..."
+if ! quiet docker compose create --build; then
+    echo "Build failed - rerun with DEBUG=1 to see why." >&2
+    exit 1
+fi
+quiet docker compose start relay || true
+
+# Act inside the pipeline, right after grep matches: the pipeline as a whole
+# only finishes once `logs -f` writes again and hits the closed pipe, which
+# never happens when the container goes quiet after its ready line (i.e.
+# without DEBUG=1). `logs -f` exits on its own when `down` removes the
+# container.
+docker compose logs -f anki 2>/dev/null | {
+    grep -q 'Anki in Docker is ready' || exit 0
+    if [ "$XPRA_CLIENT" = "1" ]; then
+        xpra attach tcp://127.0.0.1:10000/ --speed=100 --min-speed=100 >/dev/null 2>&1 &
+    elif command -v xdg-open >/dev/null 2>&1; then
+        xdg-open "$LINK_URL" >/dev/null 2>&1 &
+    elif command -v open >/dev/null 2>&1; then
+        open "$LINK_URL" >/dev/null 2>&1 &
+    fi
+} &
+
+docker start -ai "$(docker compose ps -a -q anki)"
